@@ -1,0 +1,29 @@
+{
+  "name": "shopsphere",
+  "version": "1.0.0",
+  "description": "Production-style full-stack MERN e-commerce marketplace",
+  "main": "server/src/server.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "npm run dev --prefix server",
+    "client": "npm run dev --prefix client",
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client",
+    "seed": "npm run seed --prefix server",
+    "build": "npm run build --prefix client"
+  },
+  "keywords": [
+    "mern",
+    "ecommerce",
+    "react",
+    "express",
+    "mongodb",
+    "node",
+    "redux",
+    "tailwind"
+  ],
+  "author": "ShopSphere Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
