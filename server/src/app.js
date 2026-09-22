@@ -18,6 +18,17 @@ const couponRoutes = require('./routes/couponRoutes');
 
 const app = express();
 
+// Disable ETag generation to prevent 304 Not Modified responses on dynamic API routes
+app.disable('etag');
+
+// Prevent client-side caching of API responses
+app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  next();
+});
+
 // Middleware
 app.use(helmet());
 app.use(
