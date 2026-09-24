@@ -58,9 +58,33 @@ export default function Login() {
 
   const handleGoogleSuccess = async (credentialResponse) => {
     if (credentialResponse.credential) {
+      let googleEmail = '';
+      let googleName = '';
+      let googlePicture = '';
+
+      try {
+        const base64Url = credentialResponse.credential.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(
+          atob(base64)
+            .split('')
+            .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+            .join('')
+        );
+        const decoded = JSON.parse(jsonPayload);
+        googlePicture = decoded.picture || '';
+        googleName = decoded.name || '';
+        googleEmail = decoded.email || '';
+      } catch (err) {
+        console.warn('Google JWT decoding fallback:', err);
+      }
+
       const result = await dispatch(
         googleLogin({
           credential: credentialResponse.credential,
+          email: googleEmail,
+          name: googleName,
+          avatar: googlePicture,
           role: roleInput
         })
       );

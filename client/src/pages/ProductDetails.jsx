@@ -111,20 +111,21 @@ export default function ProductDetails() {
       <Toast message={toastMessage} onClose={() => setToastMessage('')} />
 
       {/* Breadcrumb */}
-      <div className="text-xs text-slate-400 flex items-center gap-2">
-        <Link to="/" className="hover:text-white">Home</Link> /
-        <Link to="/shop" className="hover:text-white">Shop</Link> /
-        <span className="text-indigo-400 font-semibold">{currentProduct.name}</span>
+      <div className="text-xs text-slate-500 flex items-center gap-2">
+        <Link to="/" className="hover:text-slate-900">Home</Link> /
+        <Link to="/shop" className="hover:text-slate-900">Shop</Link> /
+        <span className="text-indigo-600 font-semibold">{currentProduct.name}</span>
       </div>
 
       {/* Main Product Info Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Images Gallery */}
         <div className="space-y-4">
-          <div className="aspect-4/3 rounded-3xl overflow-hidden glass-card border border-slate-800 bg-slate-950">
+          <div className="aspect-4/3 rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-md">
             <img
               src={currentProduct.images[selectedImage] || currentProduct.images[0]}
               alt={currentProduct.name}
+              onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800'; }}
               className="w-full h-full object-cover"
             />
           </div>
@@ -135,11 +136,16 @@ export default function ProductDetails() {
                 <button
                   key={idx}
                   onClick={() => setSelectedImage(idx)}
-                  className={`w-20 h-20 rounded-xl overflow-hidden glass-card border transition-all shrink-0 ${
-                    selectedImage === idx ? 'border-indigo-500 scale-105' : 'border-slate-800 opacity-60 hover:opacity-100'
+                  className={`w-20 h-20 rounded-xl overflow-hidden bg-white border transition-all shrink-0 ${
+                    selectedImage === idx ? 'border-indigo-600 scale-105 shadow-xs' : 'border-slate-200 opacity-70 hover:opacity-100'
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <img
+                    src={img}
+                    alt=""
+                    onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800'; }}
+                    className="w-full h-full object-cover"
+                  />
                 </button>
               ))}
             </div>
@@ -149,44 +155,44 @@ export default function ProductDetails() {
         {/* Product Details & Actions */}
         <div className="space-y-6">
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-xs font-semibold text-indigo-400">
-              <span className="bg-indigo-500/10 px-2.5 py-1 rounded-md border border-indigo-500/20">{currentProduct.brand}</span>
+            <div className="flex items-center gap-2 text-xs font-semibold text-indigo-600">
+              <span className="bg-indigo-50 px-2.5 py-1 rounded-md border border-indigo-200 font-bold">{currentProduct.brand}</span>
               <span>{currentProduct.category?.name}</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white">{currentProduct.name}</h1>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">{currentProduct.name}</h1>
             <RatingStars rating={currentProduct.ratings} numReviews={currentProduct.numReviews} size={16} />
           </div>
 
           {/* Pricing */}
-          <div className="flex items-baseline gap-4 p-4 rounded-2xl glass-card border border-slate-800">
-            <span className="text-3xl font-extrabold text-white">₹{activePrice.toLocaleString('en-IN')}</span>
+          <div className="flex items-baseline gap-4 p-4 rounded-2xl bg-white border border-slate-200 shadow-xs">
+            <span className="text-3xl font-extrabold text-slate-900">₹{activePrice.toLocaleString('en-IN')}</span>
             {hasDiscount && (
-              <span className="text-sm text-slate-500 line-through">₹{currentProduct.price.toLocaleString('en-IN')}</span>
+              <span className="text-sm text-slate-400 line-through">₹{currentProduct.price.toLocaleString('en-IN')}</span>
             )}
             <span className={`ml-auto text-xs font-bold px-2.5 py-1 rounded-full ${
-              currentProduct.stock > 0 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400'
+              currentProduct.stock > 0 ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-rose-100 text-rose-700 border border-rose-200'
             }`}>
               {currentProduct.stock > 0 ? `In Stock (${currentProduct.stock})` : 'Out of Stock'}
             </span>
           </div>
 
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">{currentProduct.description}</p>
+          <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">{currentProduct.description}</p>
 
           {/* Quantity & Action Buttons */}
-          <div className="space-y-4 pt-4 border-t border-slate-800">
+          <div className="space-y-4 pt-4 border-t border-slate-200">
             <div className="flex items-center gap-4">
-              <span className="text-xs font-bold text-slate-300">Quantity:</span>
-              <div className="flex items-center glass-panel rounded-xl border border-slate-800">
+              <span className="text-xs font-bold text-slate-700">Quantity:</span>
+              <div className="flex items-center bg-slate-50 rounded-xl border border-slate-200">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="px-3 py-1.5 text-slate-300 hover:text-white font-bold"
+                  className="px-3 py-1.5 text-slate-700 hover:text-slate-900 font-bold"
                 >
                   -
                 </button>
-                <span className="px-3 text-xs font-semibold text-white">{quantity}</span>
+                <span className="px-3 text-xs font-bold text-slate-900">{quantity}</span>
                 <button
                   onClick={() => setQuantity(Math.min(currentProduct.stock, quantity + 1))}
-                  className="px-3 py-1.5 text-slate-300 hover:text-white font-bold"
+                  className="px-3 py-1.5 text-slate-700 hover:text-slate-900 font-bold"
                 >
                   +
                 </button>
@@ -197,7 +203,7 @@ export default function ProductDetails() {
               <button
                 onClick={handleAddToCart}
                 disabled={currentProduct.stock <= 0}
-                className="flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-extrabold py-3.5 rounded-2xl transition-all cursor-pointer"
+                className="flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-900 text-xs font-extrabold py-3.5 rounded-2xl transition-all cursor-pointer"
               >
                 <ShoppingBag size={18} /> Add to Cart
               </button>
@@ -205,7 +211,7 @@ export default function ProductDetails() {
               <button
                 onClick={handleBuyNow}
                 disabled={currentProduct.stock <= 0}
-                className="flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 disabled:bg-slate-800 text-white text-xs font-extrabold py-3.5 rounded-2xl shadow-xl shadow-indigo-600/30 transition-all cursor-pointer"
+                className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-200 text-white text-xs font-extrabold py-3.5 rounded-2xl shadow-md shadow-indigo-600/20 transition-all cursor-pointer"
               >
                 ⚡ Buy Now & Checkout
               </button>
@@ -214,14 +220,14 @@ export default function ProductDetails() {
 
           {/* Trust Guarantees */}
           <div className="grid grid-cols-3 gap-3 pt-4 text-center">
-            <div className="p-3 rounded-xl glass-card text-[11px] text-slate-400 font-medium">
-              <Truck size={16} className="mx-auto mb-1 text-indigo-400" /> Express Shipping
+            <div className="p-3 rounded-xl bg-white border border-slate-200 text-[11px] text-slate-600 font-bold shadow-xs">
+              <Truck size={16} className="mx-auto mb-1 text-indigo-600" /> Express Shipping
             </div>
-            <div className="p-3 rounded-xl glass-card text-[11px] text-slate-400 font-medium">
-              <ShieldCheck size={16} className="mx-auto mb-1 text-emerald-400" /> 1-Yr Warranty
+            <div className="p-3 rounded-xl bg-white border border-slate-200 text-[11px] text-slate-600 font-bold shadow-xs">
+              <ShieldCheck size={16} className="mx-auto mb-1 text-emerald-600" /> 1-Yr Warranty
             </div>
-            <div className="p-3 rounded-xl glass-card text-[11px] text-slate-400 font-medium">
-              <RefreshCw size={16} className="mx-auto mb-1 text-amber-400" /> 7-Day Return
+            <div className="p-3 rounded-xl bg-white border border-slate-200 text-[11px] text-slate-600 font-bold shadow-xs">
+              <RefreshCw size={16} className="mx-auto mb-1 text-amber-600" /> 7-Day Return
             </div>
           </div>
         </div>
@@ -229,13 +235,13 @@ export default function ProductDetails() {
 
       {/* Specifications */}
       {currentProduct.specifications?.length > 0 && (
-        <section className="space-y-4 glass-panel p-6 rounded-3xl border border-slate-800">
-          <h3 className="text-lg font-bold text-white">Technical Specifications</h3>
+        <section className="space-y-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+          <h3 className="text-lg font-bold text-slate-900">Technical Specifications</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {currentProduct.specifications.map((spec, idx) => (
-              <div key={idx} className="flex justify-between py-2 border-b border-slate-800 text-xs">
-                <span className="text-slate-400 font-medium">{spec.key}</span>
-                <span className="text-white font-semibold">{spec.value}</span>
+              <div key={idx} className="flex justify-between py-2 border-b border-slate-100 text-xs">
+                <span className="text-slate-500 font-medium">{spec.key}</span>
+                <span className="text-slate-900 font-bold">{spec.value}</span>
               </div>
             ))}
           </div>
@@ -246,12 +252,12 @@ export default function ProductDetails() {
       <section className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-xl font-extrabold text-white">Customer Reviews</h3>
-            <p className="text-xs text-slate-400">Verified buyer ratings and experiences</p>
+            <h3 className="text-xl font-extrabold text-slate-900">Customer Reviews</h3>
+            <p className="text-xs text-slate-500">Verified buyer ratings and experiences</p>
           </div>
           <button
             onClick={() => setReviewModalOpen(true)}
-            className="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl cursor-pointer"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl cursor-pointer shadow-xs"
           >
             Write a Review
           </button>
@@ -260,20 +266,21 @@ export default function ProductDetails() {
         <div className="space-y-4">
           {reviews.length > 0 ? (
             reviews.map((rev) => (
-              <div key={rev._id} className="glass-card p-5 rounded-2xl border border-slate-800 space-y-2">
+              <div key={rev._id} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <img
                       src={rev.user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300'}
                       alt=""
-                      className="w-7 h-7 rounded-full object-cover"
+                      onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300'; }}
+                      className="w-7 h-7 rounded-full object-cover border border-slate-200"
                     />
-                    <span className="text-xs font-bold text-white">{rev.user?.name || 'Verified Buyer'}</span>
+                    <span className="text-xs font-bold text-slate-900">{rev.user?.name || 'Verified Buyer'}</span>
                   </div>
-                  <span className="text-[10px] text-slate-500">{new Date(rev.createdAt).toLocaleDateString()}</span>
+                  <span className="text-[10px] text-slate-400">{new Date(rev.createdAt).toLocaleDateString()}</span>
                 </div>
                 <RatingStars rating={rev.rating} size={14} />
-                <p className="text-xs text-slate-300">{rev.comment}</p>
+                <p className="text-xs text-slate-700 font-medium">{rev.comment}</p>
               </div>
             ))
           ) : (
@@ -285,25 +292,25 @@ export default function ProductDetails() {
       {/* Write Review Modal */}
       <Modal isOpen={reviewModalOpen} onClose={() => setReviewModalOpen(false)} title="Write a Customer Review">
         <form onSubmit={handleReviewSubmit} className="space-y-4">
-          {reviewError && <p className="text-xs font-semibold text-rose-400">{reviewError}</p>}
+          {reviewError && <p className="text-xs font-semibold text-rose-600">{reviewError}</p>}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">Your Rating</label>
+            <label className="block text-xs font-semibold text-slate-700 mb-1">Your Rating</label>
             <RatingStars rating={newRating} interactive={true} onRatingChange={setNewRating} size={24} />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">Review Comment</label>
+            <label className="block text-xs font-semibold text-slate-700 mb-1">Review Comment</label>
             <textarea
               required
               rows={4}
               placeholder="Share details of your experience with this product..."
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 text-xs text-white rounded-xl p-3 outline-none focus:border-indigo-500"
+              className="w-full bg-slate-50 border border-slate-200 text-xs text-slate-900 rounded-xl p-3 outline-none focus:border-indigo-600 focus:bg-white font-medium"
             ></textarea>
           </div>
           <button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs py-3 rounded-xl cursor-pointer"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs py-3 rounded-xl cursor-pointer shadow-xs"
           >
             Submit Review
           </button>
@@ -313,7 +320,7 @@ export default function ProductDetails() {
       {/* Related Products */}
       {relatedProducts.length > 0 && (
         <section className="space-y-6">
-          <h3 className="text-xl font-extrabold text-white">Related Products</h3>
+          <h3 className="text-xl font-extrabold text-slate-900">Related Products</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {relatedProducts.map((prod) => (
               <ProductCard key={prod._id} product={prod} onToast={setToastMessage} />

@@ -48,11 +48,11 @@ export default function OrderDetails() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       <Toast message={toastMessage} onClose={() => setToastMessage('')} />
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
-          <span className="text-xs font-mono text-indigo-400 font-bold">ORDER DETAILS</span>
-          <h1 className="text-2xl font-extrabold text-white">#{currentOrder._id}</h1>
-          <p className="text-xs text-slate-400">Placed on {new Date(currentOrder.createdAt).toLocaleString()}</p>
+          <span className="text-xs font-mono text-indigo-600 font-bold">ORDER DETAILS</span>
+          <h1 className="text-2xl font-extrabold text-slate-900">#{currentOrder._id}</h1>
+          <p className="text-xs text-slate-500">Placed on {new Date(currentOrder.createdAt).toLocaleString()}</p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -60,14 +60,14 @@ export default function OrderDetails() {
             <button
               onClick={handleCancelOrder}
               disabled={cancelling}
-              className="bg-rose-600/20 text-rose-400 border border-rose-500/30 hover:bg-rose-600/30 text-xs font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer"
+              className="bg-rose-50 text-rose-600 border border-rose-200 hover:bg-rose-100 text-xs font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer"
             >
               Cancel Order
             </button>
           )}
           <button
             onClick={() => window.print()}
-            className="glass-panel text-slate-300 hover:text-white text-xs font-semibold px-4 py-2 rounded-xl flex items-center gap-2 cursor-pointer"
+            className="bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200 text-xs font-semibold px-4 py-2 rounded-xl flex items-center gap-2 cursor-pointer"
           >
             <Printer size={14} /> Print Invoice
           </button>
@@ -75,8 +75,8 @@ export default function OrderDetails() {
       </div>
 
       {/* Order Status Timeline Tracker */}
-      <div className="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
-        <h3 className="text-sm font-bold text-white">Shipment Tracking Status</h3>
+      <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+        <h3 className="text-sm font-bold text-slate-900">Shipment Tracking Status</h3>
         <div className="flex items-center justify-between relative">
           {steps.map((step, idx) => {
             const isCompleted = idx <= currentStepIdx;
@@ -85,13 +85,13 @@ export default function OrderDetails() {
                 <div
                   className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all ${
                     isCompleted
-                      ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30'
-                      : 'bg-slate-900 border border-slate-800 text-slate-600'
+                      ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20'
+                      : 'bg-slate-100 border border-slate-200 text-slate-400'
                   }`}
                 >
                   {isCompleted ? <CheckCircle2 size={16} /> : idx + 1}
                 </div>
-                <span className={`text-[10px] uppercase font-bold ${isCompleted ? 'text-indigo-400' : 'text-slate-600'}`}>
+                <span className={`text-[10px] uppercase font-bold ${isCompleted ? 'text-indigo-600' : 'text-slate-400'}`}>
                   {step}
                 </span>
               </div>
@@ -100,62 +100,61 @@ export default function OrderDetails() {
         </div>
       </div>
 
-      {/* Grid Summary */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Order Items */}
         <div className="lg:col-span-2 space-y-4">
-          <div className="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
-            <h3 className="text-sm font-bold text-white border-b border-slate-800 pb-3">Purchased Items</h3>
-            <div className="space-y-3">
-              {currentOrder.items.map((item, idx) => (
-                <div key={idx} className="flex items-center justify-between text-xs">
+          <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+            <h3 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
+              <Package size={16} className="text-indigo-600" /> Purchased Items ({currentOrder.items?.length || 0})
+            </h3>
+
+            <div className="divide-y divide-slate-100">
+              {currentOrder.items?.map((item, idx) => (
+                <div key={idx} className="py-3 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <img src={item.image} alt="" className="w-12 h-12 rounded-xl object-cover bg-slate-900" />
+                    <img src={item.image} alt="" className="w-12 h-12 rounded-xl object-cover bg-slate-50 border border-slate-200" />
                     <div>
-                      <h4 className="font-semibold text-white">{item.name}</h4>
-                      <p className="text-slate-400">Qty: {item.quantity} x ₹{item.price.toLocaleString('en-IN')}</p>
+                      <h4 className="text-xs font-bold text-slate-900">{item.name}</h4>
+                      <p className="text-[10px] text-slate-500">Qty: {item.quantity} × ₹{item.price}</p>
                     </div>
                   </div>
-                  <span className="font-bold text-white">₹{(item.price * item.quantity).toLocaleString('en-IN')}</span>
+                  <span className="text-xs font-extrabold text-slate-900">₹{(item.price * item.quantity).toLocaleString('en-IN')}</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
+        {/* Shipping Address & Summary */}
         <div className="space-y-6">
-          <div className="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
-            <h3 className="text-sm font-bold text-white border-b border-slate-800 pb-3 flex items-center gap-2">
-              <MapPin size={16} className="text-indigo-400" /> Delivery Address
+          <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+            <h3 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
+              <MapPin size={16} className="text-indigo-600" /> Delivery Address
             </h3>
-            <div className="text-xs text-slate-300 space-y-1">
-              <p className="font-semibold text-white">{currentOrder.user?.name}</p>
-              <p>{currentOrder.shippingAddress?.street}</p>
-              <p>{currentOrder.shippingAddress?.city}, {currentOrder.shippingAddress?.state} - {currentOrder.shippingAddress?.postalCode}</p>
-              <p>{currentOrder.shippingAddress?.country}</p>
-            </div>
+            <p className="text-xs text-slate-700 font-medium">{currentOrder.shippingAddress?.street}</p>
+            <p className="text-xs text-slate-500">
+              {currentOrder.shippingAddress?.city}, {currentOrder.shippingAddress?.state} - {currentOrder.shippingAddress?.postalCode}
+            </p>
+            <p className="text-xs text-slate-500 font-semibold">{currentOrder.shippingAddress?.country || 'India'}</p>
           </div>
 
-          <div className="glass-panel p-6 rounded-3xl border border-slate-800 space-y-3 text-xs">
-            <h3 className="text-sm font-bold text-white border-b border-slate-800 pb-3">Payment Summary</h3>
-            <div className="flex justify-between text-slate-400">
-              <span>Payment Method</span>
-              <span className="font-semibold text-white">{currentOrder.paymentMethod}</span>
-            </div>
-            <div className="flex justify-between text-slate-400">
-              <span>Payment Status</span>
-              <span className="font-bold text-emerald-400 uppercase">{currentOrder.paymentStatus}</span>
-            </div>
-            <div className="flex justify-between text-slate-400">
+          <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-3 text-xs">
+            <h3 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">Payment Summary</h3>
+            <div className="flex justify-between text-slate-500">
               <span>Subtotal</span>
-              <span className="font-semibold text-white">₹{currentOrder.subtotal.toLocaleString('en-IN')}</span>
+              <span className="font-semibold text-slate-900">₹{currentOrder.total.toLocaleString('en-IN')}</span>
             </div>
-            <div className="flex justify-between text-slate-400">
-              <span>Discount</span>
-              <span className="font-semibold text-emerald-400">-₹{currentOrder.discount.toLocaleString('en-IN')}</span>
+            <div className="flex justify-between text-slate-500">
+              <span>Payment Method</span>
+              <span className="font-bold text-indigo-600">{currentOrder.paymentMethod}</span>
             </div>
-            <div className="flex justify-between pt-2 border-t border-slate-800 text-sm font-extrabold text-white">
-              <span>Total Paid</span>
-              <span className="text-indigo-400">₹{currentOrder.total.toLocaleString('en-IN')}</span>
+            <div className="flex justify-between text-slate-500">
+              <span>Payment Status</span>
+              <span className="font-bold text-emerald-600 uppercase">{currentOrder.paymentStatus}</span>
+            </div>
+            <div className="flex justify-between pt-3 border-t border-slate-100 text-sm font-extrabold text-slate-900">
+              <span>Grand Total</span>
+              <span className="text-indigo-600">₹{currentOrder.total.toLocaleString('en-IN')}</span>
             </div>
           </div>
         </div>

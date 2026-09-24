@@ -62,22 +62,22 @@ export default function Shop() {
       <Toast message={toastMessage} onClose={() => setToastMessage('')} />
 
       {/* Header Bar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
-          <h1 className="text-3xl font-extrabold text-white">Product Collection</h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Showing <span className="text-indigo-400 font-semibold">{total}</span> items matching your search criteria
+          <h1 className="text-3xl font-extrabold text-slate-900">Product Collection</h1>
+          <p className="text-xs text-slate-500 mt-1">
+            Showing <span className="text-indigo-600 font-bold">{total}</span> items matching your search criteria
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           {/* Sorting Dropdown */}
           <div className="flex items-center gap-2">
-            <span className="text-xs text-slate-400 font-medium">Sort by:</span>
+            <span className="text-xs text-slate-500 font-medium">Sort by:</span>
             <select
               value={sort}
               onChange={(e) => updateParam('sort', e.target.value)}
-              className="bg-slate-900 border border-slate-800 text-slate-200 text-xs font-semibold rounded-xl px-3 py-2 outline-none focus:border-indigo-500"
+              className="bg-white border border-slate-200 text-slate-900 text-xs font-semibold rounded-xl px-3 py-2 outline-none focus:border-indigo-600 shadow-xs"
             >
               <option value="newest">Newest Arrivals</option>
               <option value="price-asc">Price: Low to High</option>
@@ -88,7 +88,7 @@ export default function Shop() {
 
           <button
             onClick={() => setShowMobileFilters(!showMobileFilters)}
-            className="md:hidden flex items-center gap-2 glass-panel text-slate-300 text-xs px-3 py-2 rounded-xl"
+            className="md:hidden flex items-center gap-2 bg-white text-slate-700 border border-slate-200 text-xs px-3 py-2 rounded-xl shadow-xs"
           >
             <SlidersHorizontal size={14} /> Filters
           </button>
@@ -98,14 +98,14 @@ export default function Shop() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Filters Sidebar */}
         <aside className={`space-y-6 md:block ${showMobileFilters ? 'block' : 'hidden'}`}>
-          <div className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                <SlidersHorizontal size={16} className="text-indigo-400" /> Filter Products
+          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <SlidersHorizontal size={16} className="text-indigo-600" /> Filter Products
               </h3>
               <button
                 onClick={resetFilters}
-                className="text-[11px] font-semibold text-rose-400 hover:text-rose-300 flex items-center gap-1 cursor-pointer"
+                className="text-[11px] font-bold text-rose-600 hover:text-rose-700 flex items-center gap-1 cursor-pointer"
               >
                 <RotateCcw size={12} /> Reset
               </button>
@@ -113,12 +113,12 @@ export default function Shop() {
 
             {/* Category Filter */}
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Categories</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Categories</label>
               <div className="space-y-1">
                 <button
                   onClick={() => updateParam('category', '')}
-                  className={`w-full text-left text-xs px-3 py-2 rounded-xl transition-colors font-medium ${
-                    !category ? 'bg-indigo-600 text-white font-bold' : 'text-slate-400 hover:bg-slate-900 hover:text-white'
+                  className={`w-full text-left text-xs px-3 py-2 rounded-xl transition-colors font-semibold ${
+                    !category ? 'bg-indigo-600 text-white font-bold shadow-xs' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
                   }`}
                 >
                   All Categories
@@ -127,8 +127,8 @@ export default function Shop() {
                   <button
                     key={cat._id}
                     onClick={() => updateParam('category', cat.slug)}
-                    className={`w-full text-left text-xs px-3 py-2 rounded-xl transition-colors font-medium ${
-                      category === cat.slug ? 'bg-indigo-600 text-white font-bold' : 'text-slate-400 hover:bg-slate-900 hover:text-white'
+                    className={`w-full text-left text-xs px-3 py-2 rounded-xl transition-colors font-semibold ${
+                      category === cat.slug ? 'bg-indigo-600 text-white font-bold shadow-xs' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
                     }`}
                   >
                     {cat.name}
@@ -138,37 +138,37 @@ export default function Shop() {
             </div>
 
             {/* Price Filter */}
-            <div className="space-y-2 pt-2 border-t border-slate-800">
-              <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Price Range (₹)</label>
+            <div className="space-y-2 pt-2 border-t border-slate-100">
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Price Range (₹)</label>
               <div className="flex items-center gap-2">
                 <input
                   type="number"
                   placeholder="Min"
                   value={minPrice}
                   onChange={(e) => updateParam('minPrice', e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 text-white text-xs rounded-xl px-2.5 py-1.5 outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 text-slate-900 text-xs rounded-xl px-2.5 py-1.5 outline-none focus:bg-white focus:border-indigo-600 font-medium"
                 />
-                <span className="text-slate-600 text-xs">-</span>
+                <span className="text-slate-400 text-xs">-</span>
                 <input
                   type="number"
                   placeholder="Max"
                   value={maxPrice}
                   onChange={(e) => updateParam('maxPrice', e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 text-white text-xs rounded-xl px-2.5 py-1.5 outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 text-slate-900 text-xs rounded-xl px-2.5 py-1.5 outline-none focus:bg-white focus:border-indigo-600 font-medium"
                 />
               </div>
             </div>
 
             {/* Rating Filter */}
-            <div className="space-y-2 pt-2 border-t border-slate-800">
-              <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Minimum Rating</label>
+            <div className="space-y-2 pt-2 border-t border-slate-100">
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Minimum Rating</label>
               <div className="space-y-1">
                 {[4, 3, 2, 1].map((r) => (
                   <button
                     key={r}
                     onClick={() => updateParam('rating', rating === String(r) ? '' : String(r))}
-                    className={`w-full text-left text-xs px-3 py-1.5 rounded-xl transition-colors font-medium flex items-center gap-1.5 ${
-                      rating === String(r) ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-900'
+                    className={`w-full text-left text-xs px-3 py-1.5 rounded-xl transition-colors font-semibold flex items-center gap-1.5 ${
+                      rating === String(r) ? 'bg-indigo-600 text-white shadow-xs' : 'text-slate-700 hover:bg-slate-100'
                     }`}
                   >
                     <span>{r} Stars & Above</span>
@@ -202,17 +202,17 @@ export default function Shop() {
               />
             </>
           ) : (
-            <div className="glass-panel p-12 text-center rounded-3xl space-y-4 border border-slate-800">
-              <div className="w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center mx-auto text-slate-500">
+            <div className="bg-white p-12 text-center rounded-2xl space-y-4 border border-slate-200 shadow-xs">
+              <div className="w-16 h-16 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center mx-auto text-slate-400">
                 <Search size={28} />
               </div>
-              <h3 className="text-lg font-bold text-white">No Products Found</h3>
-              <p className="text-xs text-slate-400 max-w-sm mx-auto">
+              <h3 className="text-lg font-bold text-slate-900">No Products Found</h3>
+              <p className="text-xs text-slate-500 max-w-sm mx-auto">
                 We couldn't find any products matching your search or active filter options.
               </p>
               <button
                 onClick={resetFilters}
-                className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-5 py-2.5 rounded-xl transition-colors"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-5 py-2.5 rounded-xl transition-colors shadow-xs"
               >
                 Clear All Filters
               </button>

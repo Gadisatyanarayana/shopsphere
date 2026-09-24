@@ -105,19 +105,19 @@ export default function SellerOrders() {
   return (
     <div className="space-y-6">
       {/* Title Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-            <ShoppingBag className="text-violet-400" size={26} /> Seller Order Fulfillment
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <ShoppingBag className="text-violet-600" size={26} /> Seller Order Fulfillment
           </h1>
-          <p className="text-slate-400 text-xs mt-1">
+          <p className="text-slate-500 text-xs mt-1">
             Manage incoming orders for your store products, update delivery progress, and handle shipping.
           </p>
         </div>
       </div>
 
       {/* Filters & Search */}
-      <div className="glass-panel p-4 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="relative w-full sm:w-80">
           <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
           <input
@@ -125,7 +125,7 @@ export default function SellerOrders() {
             placeholder="Search Order ID or Customer..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-800 text-slate-200 text-xs rounded-xl pl-9 pr-4 py-2 outline-none focus:border-violet-500 transition-all"
+            className="w-full bg-slate-50 border border-slate-200 text-slate-900 text-xs rounded-xl pl-9 pr-4 py-2 outline-none focus:border-violet-500 focus:bg-white transition-all font-medium"
           />
         </div>
 
@@ -134,7 +134,7 @@ export default function SellerOrders() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-800 text-slate-200 text-xs rounded-xl px-3 py-2 outline-none focus:border-violet-500"
+            className="bg-slate-50 border border-slate-200 text-slate-900 text-xs rounded-xl px-3 py-2 outline-none focus:border-violet-500 focus:bg-white font-medium"
           >
             <option value="all">All Order Statuses</option>
             <option value="processing">Processing</option>
@@ -145,10 +145,10 @@ export default function SellerOrders() {
       </div>
 
       {/* Orders Table */}
-      <div className="glass-panel rounded-2xl border border-slate-800 overflow-hidden">
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-slate-300">
-            <thead className="bg-slate-900/80 text-slate-400 uppercase font-semibold text-[11px] border-b border-slate-800">
+          <table className="w-full text-left text-xs text-slate-700">
+            <thead className="bg-slate-50 text-slate-500 uppercase font-bold text-[11px] border-b border-slate-200">
               <tr>
                 <th className="px-6 py-4">Order ID & Date</th>
                 <th className="px-6 py-4">Customer Details</th>
@@ -158,42 +158,42 @@ export default function SellerOrders() {
                 <th className="px-6 py-4 text-right">Update Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-slate-100">
               {filteredOrders.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
+                  <td colSpan={6} className="px-6 py-12 text-center text-slate-400">
                     No matching seller orders found.
                   </td>
                 </tr>
               ) : (
                 filteredOrders.map((order) => (
-                  <tr key={order.id} className="hover:bg-slate-900/40 transition-colors">
+                  <tr key={order.id} className="hover:bg-slate-50 transition-colors">
                     <td className="px-6 py-4">
-                      <span className="font-mono font-bold text-white block">{order.id}</span>
-                      <span className="text-[11px] text-slate-400">{order.date}</span>
+                      <span className="font-mono font-bold text-slate-900 block">{order.id}</span>
+                      <span className="text-[11px] text-slate-500">{order.date}</span>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="font-semibold text-slate-200 block">{order.customerName}</span>
-                      <span className="text-[11px] text-slate-400 block">{order.customerEmail}</span>
+                      <span className="font-bold text-slate-900 block">{order.customerName}</span>
+                      <span className="text-[11px] text-slate-500 block">{order.customerEmail}</span>
                     </td>
                     <td className="px-6 py-4">
                       {order.items.map((it, idx) => (
-                        <div key={idx} className="text-slate-300">
-                          <span className="font-medium text-white">{it.name}</span>
-                          <span className="text-violet-400 ml-1.5 font-bold">x{it.qty}</span>
+                        <div key={idx} className="text-slate-700 font-medium">
+                          <span className="font-bold text-slate-900">{it.name}</span>
+                          <span className="text-violet-600 ml-1.5 font-bold">x{it.qty}</span>
                         </div>
                       ))}
                     </td>
                     <td className="px-6 py-4">
-                      <span className="font-bold text-white">${order.totalAmount.toFixed(2)}</span>
-                      <span className="text-[10px] text-emerald-400 font-semibold block">{order.paymentStatus}</span>
+                      <span className="font-bold text-slate-900">${order.totalAmount.toFixed(2)}</span>
+                      <span className="text-[10px] text-emerald-600 font-semibold block">{order.paymentStatus}</span>
                     </td>
                     <td className="px-6 py-4">{getStatusBadge(order.status)}</td>
                     <td className="px-6 py-4 text-right">
                       <select
                         value={order.status}
                         onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                        className="bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1.5 outline-none focus:border-violet-500 font-medium"
+                        className="bg-slate-50 border border-slate-200 text-slate-900 text-xs rounded-xl px-2.5 py-1.5 outline-none focus:border-violet-500 focus:bg-white font-medium"
                       >
                         <option value="Processing">Processing</option>
                         <option value="Shipped">Shipped</option>

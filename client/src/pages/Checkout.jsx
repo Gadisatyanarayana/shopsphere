@@ -167,13 +167,13 @@ export default function Checkout() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       <Toast message={toastMessage} onClose={() => setToastMessage('')} />
 
-      <div className="border-b border-slate-800 pb-6">
-        <h1 className="text-3xl font-extrabold text-white">Checkout</h1>
-        <p className="text-xs text-slate-400 mt-1">Complete your shipping address and secure payment</p>
+      <div className="border-b border-slate-200 pb-6">
+        <h1 className="text-3xl font-extrabold text-slate-900">Checkout</h1>
+        <p className="text-xs text-slate-500 mt-1">Complete your shipping address and secure payment</p>
       </div>
 
       {errorMessage && (
-        <div className="glass-panel p-4 rounded-2xl border border-rose-500/40 bg-rose-500/10 text-rose-300 text-xs font-semibold flex items-center gap-2">
+        <div className="p-4 rounded-2xl border border-rose-200 bg-rose-50 text-rose-600 text-xs font-semibold flex items-center gap-2">
           <AlertCircle size={16} /> {errorMessage}
         </div>
       )}
@@ -182,14 +182,14 @@ export default function Checkout() {
         {/* Left Column: Shipping & Payment Method */}
         <div className="lg:col-span-2 space-y-8">
           {/* Shipping Address */}
-          <div className="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <Truck className="text-indigo-400" size={20} /> 1. Shipping Address
+          <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+            <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <Truck className="text-indigo-600" size={20} /> 1. Shipping Address
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Street Address</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Street Address</label>
                 <input
                   type="text"
                   name="street"
@@ -197,12 +197,12 @@ export default function Checkout() {
                   placeholder="House/Flat No, Street, Landmark"
                   value={shippingAddress.street}
                   onChange={handleInputChange}
-                  className="w-full bg-slate-950 border border-slate-800 text-xs text-white rounded-xl p-3 outline-none focus:border-indigo-500"
+                  className="w-full bg-slate-50 border border-slate-200 text-xs text-slate-900 rounded-xl p-3 outline-none focus:border-indigo-500 focus:bg-white transition-all font-medium"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">City</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">City</label>
                 <input
                   type="text"
                   name="city"
@@ -210,12 +210,12 @@ export default function Checkout() {
                   placeholder="City"
                   value={shippingAddress.city}
                   onChange={handleInputChange}
-                  className="w-full bg-slate-950 border border-slate-800 text-xs text-white rounded-xl p-3 outline-none focus:border-indigo-500"
+                  className="w-full bg-slate-50 border border-slate-200 text-xs text-slate-900 rounded-xl p-3 outline-none focus:border-indigo-500 focus:bg-white transition-all font-medium"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">State</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">State</label>
                 <input
                   type="text"
                   name="state"
@@ -223,12 +223,12 @@ export default function Checkout() {
                   placeholder="State"
                   value={shippingAddress.state}
                   onChange={handleInputChange}
-                  className="w-full bg-slate-950 border border-slate-800 text-xs text-white rounded-xl p-3 outline-none focus:border-indigo-500"
+                  className="w-full bg-slate-50 border border-slate-200 text-xs text-slate-900 rounded-xl p-3 outline-none focus:border-indigo-500 focus:bg-white transition-all font-medium"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Postal PIN Code</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Postal PIN Code</label>
                 <input
                   type="text"
                   name="postalCode"
@@ -236,34 +236,34 @@ export default function Checkout() {
                   placeholder="PIN Code"
                   value={shippingAddress.postalCode}
                   onChange={handleInputChange}
-                  className="w-full bg-slate-950 border border-slate-800 text-xs text-white rounded-xl p-3 outline-none focus:border-indigo-500"
+                  className="w-full bg-slate-50 border border-slate-200 text-xs text-slate-900 rounded-xl p-3 outline-none focus:border-indigo-500 focus:bg-white transition-all font-medium"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Country</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Country</label>
                 <input
                   type="text"
                   name="country"
                   required
                   value={shippingAddress.country}
                   onChange={handleInputChange}
-                  className="w-full bg-slate-950 border border-slate-800 text-xs text-white rounded-xl p-3 outline-none focus:border-indigo-500"
+                  className="w-full bg-slate-50 border border-slate-200 text-xs text-slate-900 rounded-xl p-3 outline-none focus:border-indigo-500 focus:bg-white transition-all font-medium"
                 />
               </div>
             </div>
           </div>
 
           {/* Payment Options */}
-          <div className="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <CreditCard className="text-indigo-400" size={20} /> 2. Select Payment Method
+          <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+            <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <CreditCard className="text-indigo-600" size={20} /> 2. Select Payment Method
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <label
-                className={`p-4 rounded-2xl glass-card border cursor-pointer flex items-center gap-3 transition-all ${
-                  paymentMethod === 'Razorpay' ? 'border-indigo-500 bg-indigo-500/10' : 'border-slate-800'
+                className={`p-4 rounded-2xl border cursor-pointer flex items-center gap-3 transition-all ${
+                  paymentMethod === 'Razorpay' ? 'border-indigo-600 bg-indigo-50/60 ring-2 ring-indigo-500/20' : 'border-slate-200 bg-slate-50'
                 }`}
               >
                 <input
@@ -274,16 +274,16 @@ export default function Checkout() {
                   onChange={() => setPaymentMethod('Razorpay')}
                   className="hidden"
                 />
-                <ShieldCheck className="text-indigo-400" size={24} />
+                <ShieldCheck className="text-indigo-600" size={24} />
                 <div>
-                  <h4 className="text-xs font-bold text-white">Razorpay Online Payment</h4>
-                  <p className="text-[10px] text-slate-400">Cards, UPI, NetBanking (Dev Mock Fallback Enabled)</p>
+                  <h4 className="text-xs font-bold text-slate-900">Razorpay Online Payment</h4>
+                  <p className="text-[10px] text-slate-500">Cards, UPI, NetBanking (Dev Mock Fallback Enabled)</p>
                 </div>
               </label>
 
               <label
-                className={`p-4 rounded-2xl glass-card border cursor-pointer flex items-center gap-3 transition-all ${
-                  paymentMethod === 'COD' ? 'border-indigo-500 bg-indigo-500/10' : 'border-slate-800'
+                className={`p-4 rounded-2xl border cursor-pointer flex items-center gap-3 transition-all ${
+                  paymentMethod === 'COD' ? 'border-emerald-600 bg-emerald-50/60 ring-2 ring-emerald-500/20' : 'border-slate-200 bg-slate-50'
                 }`}
               >
                 <input
@@ -294,10 +294,10 @@ export default function Checkout() {
                   onChange={() => setPaymentMethod('COD')}
                   className="hidden"
                 />
-                <Truck className="text-emerald-400" size={24} />
+                <Truck className="text-emerald-600" size={24} />
                 <div>
-                  <h4 className="text-xs font-bold text-white">Cash on Delivery (COD)</h4>
-                  <p className="text-[10px] text-slate-400">Pay cash upon delivery at your doorstep</p>
+                  <h4 className="text-xs font-bold text-slate-900">Cash on Delivery (COD)</h4>
+                  <p className="text-[10px] text-slate-500">Pay cash upon delivery at your doorstep</p>
                 </div>
               </label>
             </div>
@@ -306,41 +306,41 @@ export default function Checkout() {
 
         {/* Right Column: Order Review */}
         <div className="space-y-6">
-          <div className="glass-panel p-6 rounded-3xl border border-slate-800 space-y-6">
-            <h3 className="text-lg font-bold text-white border-b border-slate-800 pb-3">Order Verification</h3>
+          <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-6">
+            <h3 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">Order Verification</h3>
 
             <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
               {items.map((i) => (
                 <div key={i._id} className="flex justify-between items-center text-xs">
-                  <span className="text-slate-300 line-clamp-1 flex-1 pr-2">{i.product.name} (x{i.quantity})</span>
-                  <span className="font-bold text-white shrink-0">₹{(i.price * i.quantity).toLocaleString('en-IN')}</span>
+                  <span className="text-slate-700 font-medium line-clamp-1 flex-1 pr-2">{i.product.name} (x{i.quantity})</span>
+                  <span className="font-bold text-slate-900 shrink-0">₹{(i.price * i.quantity).toLocaleString('en-IN')}</span>
                 </div>
               ))}
             </div>
 
-            <div className="space-y-2 pt-3 border-t border-slate-800 text-xs text-slate-400">
+            <div className="space-y-2 pt-3 border-t border-slate-100 text-xs text-slate-500">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span className="font-bold text-white">₹{subtotal.toLocaleString('en-IN')}</span>
+                <span className="font-bold text-slate-900">₹{subtotal.toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between">
                 <span>Shipping</span>
-                <span className="font-bold text-white">{shippingFee === 0 ? 'FREE' : `₹${shippingFee}`}</span>
+                <span className="font-bold text-slate-900">{shippingFee === 0 ? <span className="text-emerald-600">FREE</span> : `₹${shippingFee}`}</span>
               </div>
               <div className="flex justify-between">
                 <span>GST Tax (5%)</span>
-                <span className="font-bold text-white">₹{tax.toLocaleString('en-IN')}</span>
+                <span className="font-bold text-slate-900">₹{tax.toLocaleString('en-IN')}</span>
               </div>
-              <div className="flex justify-between pt-3 border-t border-slate-800 text-base font-extrabold text-white">
+              <div className="flex justify-between pt-3 border-t border-slate-100 text-base font-extrabold text-slate-900">
                 <span>Total Amount</span>
-                <span className="text-indigo-400">₹{total.toLocaleString('en-IN')}</span>
+                <span className="text-indigo-600">₹{total.toLocaleString('en-IN')}</span>
               </div>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 disabled:bg-slate-800 text-white font-extrabold text-xs py-3.5 rounded-2xl shadow-xl shadow-indigo-600/30 transition-all cursor-pointer flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 disabled:bg-slate-200 text-white font-extrabold text-xs py-3.5 rounded-2xl shadow-md shadow-indigo-600/20 transition-all cursor-pointer flex items-center justify-center gap-2"
             >
               {loading ? (
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

@@ -313,9 +313,17 @@ exports.googleAuth = async (req, res, next) => {
         avatar: userAvatar,
         role: assignedRole
       });
-    } else if (role && user.role !== role) {
-      user.role = role;
-      await user.save();
+    } else {
+      let updated = false;
+      if (role && user.role !== role) {
+        user.role = role;
+        updated = true;
+      }
+      if (userAvatar && user.avatar !== userAvatar) {
+        user.avatar = userAvatar;
+        updated = true;
+      }
+      if (updated) await user.save();
     }
 
     sendTokenResponse(user, 200, res, 'Signed in successfully');
