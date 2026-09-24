@@ -14,18 +14,18 @@ export default function SellerDashboard() {
   }, [dispatch]);
 
   const stats = dashboardStats || {
-    totalRevenue: 148500,
-    totalOrders: 18,
-    totalProducts: 12,
-    pendingOrders: 3,
+    totalRevenue: 0,
+    totalOrders: 0,
+    totalProducts: 0,
+    pendingOrders: 0,
     lowStockProducts: [],
     monthlyRevenue: [],
     topProducts: []
   };
 
-  const revenue = (stats.totalRevenue && stats.totalRevenue > 0) ? stats.totalRevenue : 148500;
-  const ordersCount = (stats.totalOrders && stats.totalOrders > 0) ? stats.totalOrders : 18;
-  const productsCount = (stats.totalProducts && stats.totalProducts > 0) ? stats.totalProducts : 12;
+  const revenue = stats.totalRevenue ?? 0;
+  const ordersCount = stats.totalOrders ?? 0;
+  const productsCount = stats.totalProducts ?? 0;
 
   return (
     <div className="space-y-8">

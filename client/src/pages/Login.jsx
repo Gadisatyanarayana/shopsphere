@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingBag, User, Store, Mail, ArrowRight, AlertCircle, Lock, ShieldCheck } from 'lucide-react';
+import { ShoppingBag, User, Store, Mail, AlertCircle, ShieldCheck } from 'lucide-react';
 import { GoogleLogin } from '@react-oauth/google';
 import { googleLogin } from '../../src/store/authSlice';
 
@@ -14,8 +14,8 @@ export default function Login() {
   const navigate = useNavigate();
   const { loading, error } = useSelector((state) => state.auth);
 
-  const handleSignIn = async (emailToUse, roleToUse, customName = '', avatarUrl = '') => {
-    let email = emailToUse || 'buyer.customer@gmail.com';
+  const handleSignIn = async (emailToUse, roleToUse, customName = '') => {
+    let email = emailToUse || (roleToUse === 'seller' ? 'seller.store@shopsphere.com' : 'buyer.customer@gmail.com');
     let resolvedRole = roleToUse;
 
     // Secret Admin Auto-Resolution for satyanarayanag904@gmail.com
@@ -29,9 +29,7 @@ export default function Login() {
         const handle = email.split('@')[0].replace(/[^a-zA-Z0-9]+/g, ' ');
         name = handle.split(' ').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
       } else {
-        if (resolvedRole === 'seller') name = 'ShopSphere Verified Seller';
-        else if (resolvedRole === 'admin') name = 'Satyanarayana Super Admin';
-        else name = 'Verified Shopper';
+        name = resolvedRole === 'seller' ? 'ShopSphere Verified Seller' : resolvedRole === 'admin' ? 'Satyanarayana Super Admin' : 'Verified Shopper';
       }
     }
 
@@ -46,19 +44,15 @@ export default function Login() {
         name,
         email,
         role: resolvedRole,
-        avatar: avatarUrl || defaultAvatar
+        avatar: defaultAvatar
       })
     );
 
     if (!result.error) {
       const userRole = result.payload?.user?.role || resolvedRole;
-      if (userRole === 'seller') {
-        navigate('/seller/dashboard');
-      } else if (userRole === 'admin') {
-        navigate('/admin/dashboard');
-      } else {
-        navigate('/');
-      }
+      if (userRole === 'seller') navigate('/seller/dashboard');
+      else if (userRole === 'admin') navigate('/admin/dashboard');
+      else navigate('/');
     }
   };
 
@@ -88,31 +82,59 @@ export default function Login() {
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center px-4 py-12 bg-slate-50">
-      <div className="w-full max-w-lg p-8 rounded-3xl border border-slate-200 shadow-xl space-y-8 text-center bg-white">
+      <div className="w-full max-w-md p-8 rounded-3xl border border-slate-200 shadow-xl space-y-6 text-center bg-white">
         {/* Header */}
-        <div className="space-y-3">
+        <div className="space-y-2">
           <Link
             to="/"
-            className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-600 shadow-lg shadow-indigo-600/20 hover:scale-105 transition-transform"
+            className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-indigo-600 shadow-md shadow-indigo-600/20 hover:scale-105 transition-transform"
           >
-            <ShoppingBag className="w-7 h-7 text-white" />
+            <ShoppingBag className="w-6 h-6 text-white" />
           </Link>
           <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Sign In to ShopSphere</h1>
-          <p className="text-xs text-slate-500 max-w-sm mx-auto">
-            Access your buyer shopping account or seller merchant store with Google or your email.
-          </p>
+          <p className="text-xs text-slate-500">Select your account role and sign in with Google</p>
         </div>
 
         {error && (
-          <div className="p-3.5 rounded-xl border border-rose-200 bg-rose-50 text-rose-600 text-xs font-semibold flex items-center justify-center gap-2">
+          <div className="p-3 rounded-xl border border-rose-200 bg-rose-50 text-rose-600 text-xs font-semibold flex items-center justify-center gap-2">
             <AlertCircle size={16} /> {error}
           </div>
         )}
 
-        {/* Real Google Login OAuth Button */}
-        <div className="space-y-3">
-          <label className="block text-xs font-bold text-slate-700">One-Click Google Account Sign In:</label>
-          <div className="flex justify-center">
+        {/* Role Toggle Selector */}
+        <div className="space-y-1.5 text-left">
+          <label className="block text-xs font-bold text-slate-700">1. Select Account Role:</label>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => setRoleInput('customer')}
+              className={`flex items-center justify-center gap-2 p-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                roleInput === 'customer'
+                  ? 'bg-indigo-50 border-indigo-500 text-indigo-700 shadow-xs ring-2 ring-indigo-500/20'
+                  : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+              }`}
+            >
+              <User size={16} /> Buyer Account
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setRoleInput('seller')}
+              className={`flex items-center justify-center gap-2 p-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                roleInput === 'seller'
+                  ? 'bg-violet-50 border-violet-500 text-violet-700 shadow-xs ring-2 ring-violet-500/20'
+                  : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+              }`}
+            >
+              <Store size={16} /> Seller Merchant
+            </button>
+          </div>
+        </div>
+
+        {/* Primary Google Login OAuth Button */}
+        <div className="space-y-2 pt-2">
+          <label className="block text-xs font-bold text-slate-700 text-left">2. Continue with Google:</label>
+          <div className="flex justify-center w-full">
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
               onError={() => console.log('Google Login Failed')}
@@ -120,6 +142,7 @@ export default function Login() {
               shape="pill"
               theme="outline"
               size="large"
+              width="320"
               text="continue_with"
             />
           </div>
@@ -127,59 +150,14 @@ export default function Login() {
 
         <div className="relative flex py-1 items-center">
           <div className="flex-grow border-t border-slate-200"></div>
-          <span className="flex-shrink mx-4 text-[10px] text-slate-400 font-bold uppercase tracking-wider">or sign in with credentials</span>
+          <span className="flex-shrink mx-4 text-[10px] text-slate-400 font-bold uppercase tracking-wider">or sign in with email</span>
           <div className="flex-grow border-t border-slate-200"></div>
         </div>
 
-        {/* Role Cards: Buyer & Seller Selection */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
-          {/* Buyer */}
-          <div
-            onClick={() => handleSignIn(emailInput || 'buyer.customer@gmail.com', 'customer', nameInput)}
-            className={`group p-5 rounded-2xl border cursor-pointer space-y-3 transition-all ${
-              roleInput === 'customer'
-                ? 'bg-indigo-50/70 border-indigo-300 ring-2 ring-indigo-500/20'
-                : 'bg-white border-slate-200 hover:border-indigo-300'
-            }`}
-          >
-            <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <User size={20} />
-            </div>
-            <div>
-              <h3 className="text-xs font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Buyer Account</h3>
-              <p className="text-[11px] text-slate-500">Cart, wishlist, orders & address book</p>
-            </div>
-            <span className="text-[10px] font-bold text-indigo-600 flex items-center gap-1 pt-1">
-              Sign In as Buyer <ArrowRight size={12} />
-            </span>
-          </div>
-
-          {/* Seller */}
-          <div
-            onClick={() => handleSignIn(emailInput || 'seller.store@shopsphere.com', 'seller', nameInput || 'ShopSphere Seller')}
-            className={`group p-5 rounded-2xl border cursor-pointer space-y-3 transition-all ${
-              roleInput === 'seller'
-                ? 'bg-violet-50/70 border-violet-300 ring-2 ring-violet-500/20'
-                : 'bg-white border-slate-200 hover:border-violet-300'
-            }`}
-          >
-            <div className="w-10 h-10 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <Store size={20} />
-            </div>
-            <div>
-              <h3 className="text-xs font-bold text-slate-900 group-hover:text-violet-600 transition-colors">Seller Merchant Store</h3>
-              <p className="text-[11px] text-slate-500">Upload items, catalog & seller orders</p>
-            </div>
-            <span className="text-[10px] font-bold text-violet-600 flex items-center gap-1 pt-1">
-              Sign In as Seller <ArrowRight size={12} />
-            </span>
-          </div>
-        </div>
-
-        {/* Input Form */}
+        {/* Clean Email Sign In Form */}
         <form onSubmit={handleFormSubmit} className="space-y-4 text-left">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">Full Name</label>
+            <label className="block text-xs font-semibold text-slate-700 mb-1">Your Name (Optional)</label>
             <div className="relative">
               <input
                 type="text"
@@ -207,47 +185,6 @@ export default function Login() {
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-2">Account Role:</label>
-            <div className="grid grid-cols-2 gap-3">
-              <label
-                className={`flex items-center justify-center gap-2 p-3 rounded-xl border text-xs font-bold cursor-pointer transition-all ${
-                  roleInput === 'customer'
-                    ? 'bg-indigo-50 border-indigo-300 text-indigo-700 shadow-xs'
-                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="roleInput"
-                  value="customer"
-                  checked={roleInput === 'customer'}
-                  onChange={() => setRoleInput('customer')}
-                  className="hidden"
-                />
-                <span>🛒 Buyer Account</span>
-              </label>
-
-              <label
-                className={`flex items-center justify-center gap-2 p-3 rounded-xl border text-xs font-bold cursor-pointer transition-all ${
-                  roleInput === 'seller'
-                    ? 'bg-violet-50 border-violet-300 text-violet-700 shadow-xs'
-                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="roleInput"
-                  value="seller"
-                  checked={roleInput === 'seller'}
-                  onChange={() => setRoleInput('seller')}
-                  className="hidden"
-                />
-                <span>🏪 Seller Merchant</span>
-              </label>
-            </div>
-          </div>
-
           <button
             type="submit"
             disabled={loading}
@@ -259,7 +196,7 @@ export default function Login() {
 
         <div className="pt-2 text-[11px] text-slate-500 flex items-center justify-center gap-1.5 font-medium border-t border-slate-100">
           <ShieldCheck size={14} className="text-emerald-600" />
-          <span>ShopSphere Google Encrypted OAuth Protocol</span>
+          <span>Google Encrypted One-Tap Authentication</span>
         </div>
       </div>
     </div>
