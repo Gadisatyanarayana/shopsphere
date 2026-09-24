@@ -71,12 +71,25 @@ export default function Profile() {
       <Toast message={toastMessage} onClose={() => setToastMessage('')} />
 
       <div className="border-b border-slate-200 pb-6 flex items-center gap-4">
-        <img
-          src={user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300'}
-          alt={user?.name}
-          onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300'; }}
-          className="w-16 h-16 rounded-2xl object-cover border-2 border-indigo-500 shadow-md"
-        />
+        {user?.avatar ? (
+          <img
+            src={user.avatar}
+            alt={user.name || 'User Profile'}
+            referrerPolicy="no-referrer"
+            onError={(e) => {
+              e.target.style.display = 'none';
+              if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex';
+            }}
+            className="w-16 h-16 rounded-2xl object-cover border-2 border-indigo-500 shadow-md"
+          />
+        ) : null}
+        <div
+          className={`w-16 h-16 rounded-2xl bg-indigo-100 border-2 border-indigo-500 text-indigo-700 font-extrabold text-xl items-center justify-center ${
+            user?.avatar ? 'hidden' : 'flex'
+          }`}
+        >
+          {user?.name ? user.name[0].toUpperCase() : <User size={24} />}
+        </div>
         <div>
           <h1 className="text-2xl font-extrabold text-slate-900">{user?.name}</h1>
           <p className="text-xs text-slate-500">{user?.email} • Member since {new Date(user?.createdAt || Date.now()).getFullYear()}</p>

@@ -117,13 +117,27 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                  className="flex items-center gap-2 p-1 rounded-xl hover:bg-slate-100 transition-colors border border-slate-200 text-slate-800 bg-white"
+                  className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-slate-100 transition-colors border border-slate-200 text-slate-800 bg-white"
                 >
-                  <img
-                    src={user.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300'}
-                    alt={user.name}
-                    className="w-7 h-7 rounded-lg object-cover border border-slate-200"
-                  />
+                  {user.avatar ? (
+                    <img
+                      src={user.avatar}
+                      alt={user.name || 'User Profile'}
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex';
+                      }}
+                      className="w-7 h-7 rounded-lg object-cover border border-slate-200"
+                    />
+                  ) : null}
+                  <div
+                    className={`w-7 h-7 rounded-lg bg-indigo-100 border border-indigo-200 text-indigo-700 font-extrabold text-xs items-center justify-center ${
+                      user.avatar ? 'hidden' : 'flex'
+                    }`}
+                  >
+                    {user.name ? user.name[0].toUpperCase() : <User size={14} />}
+                  </div>
                   <span className="hidden sm:inline text-xs font-bold max-w-[100px] truncate">{user.name}</span>
                   <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
                 </button>
